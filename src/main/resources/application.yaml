@@ -1,0 +1,31 @@
+server:
+  port: 8090
+
+spring:
+  data:
+    rest:
+      basePath: /api
+  logging:
+    level:
+      org.springframework.security: DEBUG
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+
+#spring.data.neo4j.uri=bolt://localhost
+#spring.data.neo4j.username=neo4j
+#spring.data.neo4j.password=secret
+
+lab:
+  jwtPublicKey: |
+                -----BEGIN PUBLIC KEY-----
+                MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz8Y+umAvSQKgOHq4FbIg
+                RSfJ436ItzpQ1SsdbO1QDjMxgl7od5wWOUvf4F0qk0Z93ZmZuQopKQysYRazkGd2
+                UvVq3edh79BNET5okG3IuX+4gfhC8W1BgpP6BQlF61w0Q86u/4ey7fXWcWRUX4+g
+                pC2D7bgUsAwbtGATFJzF9+0Tp3MWj6+tZa6jmiDah8Jpds++NVDu07jsLw/AvyO2
+                jaqjr5Fdk7MX8DWFVPebliT/UKijEru6uJ2u5xn9YDWYpxbRGq6pipcqQj/Icvvz
+                bh5+lyLaB1foRiOSm4q9MMmG6q+KIxPLhytg/GYokHqA7pUgFqWOlFmVvSMwzeWd
+                8QIDAQAB
+                -----END PUBLIC KEY-----
+  audience: webapp
