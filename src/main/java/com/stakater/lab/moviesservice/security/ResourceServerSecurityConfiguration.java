@@ -31,6 +31,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  * This config defined the access rules and paths that are protected by OAuth2 security.
+ *
+ * Any REST API which serves any Resources (endpoints) is called a Resource Server.
+ *
+ * This is a security configuration for resources held/served by the REST API.
  */
 @Configuration
 /**
@@ -46,13 +50,10 @@ import javax.servlet.http.HttpSession;
  * @EnableWebSecurity(debug = true)
  */
 @EnableWebSecurity
-public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+public class ResourceServerSecurityConfiguration extends ResourceServerConfigurerAdapter {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ResourceServerConfig.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResourceServerSecurityConfiguration.class);
 
-    // Q1: What should be format of JWT public key?
-    // Q2: From where to get this public key?
-    // Q3: What is this key? A3: The signature verification key (typically an RSA public key)
     @Value("${lab.jwtPublicKey}")
     private String jwtPublicKey;
 
