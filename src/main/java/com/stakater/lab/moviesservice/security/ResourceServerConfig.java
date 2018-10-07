@@ -43,8 +43,9 @@ import javax.servlet.http.HttpSession;
 @EnableResourceServer
 /**
  * debug = true has been set for testing purposes only and shouldn't be used in production
+ * @EnableWebSecurity(debug = true)
  */
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourceServerConfig.class);
