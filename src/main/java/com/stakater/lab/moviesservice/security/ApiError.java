@@ -22,7 +22,8 @@ import java.util.Collection;
         ApiError.TITLE,
         ApiError.STATUS,
         ApiError.DETAIL,
-        ApiError.INSTANCE
+        ApiError.INSTANCE,
+        ApiError.FIELD_ERRORS
 })
 public class ApiError implements Serializable {
 
