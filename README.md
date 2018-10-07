@@ -1,6 +1,10 @@
-## Redis
+## Building
 
-To run redis:
+`mvn spring-boot:run`
+
+## Neo4J
+
+To run neo4j:
 
 ```
 docker run \
@@ -23,7 +27,7 @@ By default, this requires you to login with neo4j/neo4j and change the password.
 - [ ] Fix discoverability of REST API endpoints
 - [X] Customize the oauth2 error response; currently it returns 2 fields; the whole API should have same error response - DONE
 - [ ] Print the filter chain; all the filters which have been invoked before the request reaches the DispatcherServlet
-- [ ] Change the keycloak signing key and verify
+- [X] Change the keycloak signing key and verify
 - [ ] Time the API requests; log how much API request takes
 - [ ] Log the API requests / responses everything including headers ... AbstractRequestLoggingFilter
 - [X] Extract the principal from the id-token - DONE
@@ -31,6 +35,7 @@ By default, this requires you to login with neo4j/neo4j and change the password.
 - [X] Harmonize the API error responses from when e.g. path is not found; look in examples below
 - [ ] In JavaScript its preferred to use underscore instead of camelCase; i.e. user_name and not userName; so, we should change the fields in the token
 - [X] Override `config.authenticationEntryPoint()` and provide custom auth entry point - DONE
+- [X] Return app information on `/actuator/info`
 
 ## How to get keycloak token?
 
@@ -40,12 +45,54 @@ By default, this requires you to login with neo4j/neo4j and change the password.
 value after `Bearer`
 - Or run the react-app
 - Try to access the secure path
-- then in browser terminal print: window.keycloak.idToken
-- copy the idToken and then add it as Authorization header with Bearer + idToken
+- Then in browser terminal print: `window.keycloak.idToken` or `keycloak.idToken`
+- Copy the idToken and then add it as `Authorization` header with `Bearer ` + idToken
 
 ## Features
 
+### Same API Error format
+
+- Same API error response for business and oauth errors
+
+### Monitoring
+
+- https://docs.spring.io/spring-metrics/docs/current/public/prometheus#web
+
+### Logging
+
 - 
+
+### Principal extraction from JWT IdToken; OAuth2 OpenID Connect
+
+- 
+
+### Build Info
+
+`/actuator/info` returns the build info
+
+- https://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/build-info.html
+
+e.g.
+
+```
+{
+    "build": {
+        "name": "movies-service",
+        "time": "2018-10-07T20:26:09.713Z",
+        "java": {
+            "target": "1.8",
+            "source": "1.8"
+        },
+        "encoding": {
+            "source": "UTF-8",
+            "reporting": "UTF-8"
+        },
+        "version": "0.0.1-SNAPSHOT",
+        "group": "com.stakater.lab",
+        "artifact": "movies-service"
+    }
+}
+```
 
 ## Different API Error Responses
 
@@ -93,4 +140,10 @@ name `user_name`; need to add this field to KeyCloak claims - DONE
 - `SecurityController` has examples to extract principal in 4 different ways
 - There is no need to create a new class as `OAuth2Authentication` is good enough as it has all claims as well
 - Good to put breakpoints in `DefaultAccessTokenConverter` and debug the status and see how principal is extracted from the token
+- 
+
+## Acknowledgements
+
+- https://github.com/neo4j-examples/movies-java-spring-data-neo4j
+- https://github.com/spring-projects/spring-data-examples/tree/master/neo4j
 - 
