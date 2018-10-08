@@ -22,20 +22,23 @@ By default, this requires you to login with neo4j/neo4j and change the password.
 
 ## TODO's
 
-- [ ] Add some data on startup / Load test data
+- [X] Add some data on startup / Load test data - DONE
 - [ ] Fix path of Neo4j repository path as it prints currently No identity field found for class of type: com.stakater.lab.movieservice.security.ResourceServerConfig when creating persistent property for : private java.lang.String com.stakater.lab.movieservice.security.ResourceServerConfig.jwtPublicKey
 - [ ] Fix discoverability of REST API endpoints
 - [X] Customize the oauth2 error response; currently it returns 2 fields; the whole API should have same error response - DONE
 - [ ] Print the filter chain; all the filters which have been invoked before the request reaches the DispatcherServlet
-- [X] Change the keycloak signing key and verify
+- [X] Change the keycloak signing key and verify - DONE
 - [ ] Time the API requests; log how much API request takes
 - [ ] Log the API requests / responses everything including headers ... AbstractRequestLoggingFilter
 - [X] Extract the principal from the id-token - DONE
 - [ ] In keycloak change validity period and verify that its rejected if token has expired
-- [X] Harmonize the API error responses from when e.g. path is not found; look in examples below
+- [X] Harmonize the API error responses from when e.g. path is not found; look in examples below - DONE
 - [ ] In JavaScript its preferred to use underscore instead of camelCase; i.e. user_name and not userName; so, we should change the fields in the token
 - [X] Override `config.authenticationEntryPoint()` and provide custom auth entry point - DONE
-- [X] Return app information on `/actuator/info`
+- [X] Return app information on `/actuator/info` - DONE
+- [ ] Keep configs in one property file and secrets in another property file!
+- [ ] Load some configs from a shared lib e.g. `spring.mvc.hrow-exception-if-no-handler-found=true`
+- [ ] Just expose `/actuator/info` & `/actuator/health`; but rest must not be exposed to whole world we need to expose `/actuator/prometheus`
 
 ## How to get keycloak token?
 
@@ -50,6 +53,10 @@ value after `Bearer`
 
 ## Features
 
+### Lombok
+
+To avoid repetitive code!
+
 ### Same API Error format
 
 - Same API error response for business and oauth errors
@@ -57,6 +64,68 @@ value after `Bearer`
 ### Monitoring
 
 - https://docs.spring.io/spring-metrics/docs/current/public/prometheus#web
+
+`http://localhost:8090/actuator/prometheus`
+
+#### How to enable?
+
+As from Spring Boot 2.0, Micrometer is the default metrics export engine. Micrometer is an application metrics facade 
+that supports numerous monitoring systems. 
+
+When you add Spring Boot Actuator and micrometer as your dependencies, it auto-configures a composite MeterRegistry and 
+adds a registry for each of the supported implementations that it finds on the classpath. Having a dependency on 
+micrometer-registry-prometheus in your runtime classpath is enough for Spring Boot to configure the registry.
+
+- In `pom.xml`
+
+```
+<!-- Spring boot actuator to expose metrics endpoint -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+<!-- Micormeter core dependecy  -->
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-core</artifactId>
+</dependency>
+<!-- Micrometer Prometheus registry  -->
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-registry-prometheus</artifactId>
+</dependency>
+```
+
+- In `application.yaml`
+
+```
+management:
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+```
+
+That is all you need to do to enable the metrics. Start the application with these changes and if you browse URL 
+`http://localhost:8090/actuator` you should see the actuator endpoints.
+
+Notice spring-boot 2 and actuator has enabled an endpoint `http://localhost:8090/actuator/prometheus` for us. If you 
+browse this URL, you will be able to see the metrics exported from the person-application. The data is the actual 
+metrics collected from the application and exported as JSON.
+
+```
+http_server_requests_seconds_count{exception="None",method="GET",status="200",uri="/api/username-from-oauth2-authentication",} 2.0
+http_server_requests_seconds_sum{exception="None",method="GET",status="200",uri="/api/username-from-oauth2-authentication",} 0.273836206
+```
 
 ### Logging
 
