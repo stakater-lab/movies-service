@@ -2,6 +2,9 @@ server:
   port: 8090
 
 spring:
+  output:
+    ansi:
+      enabled: always
   data:
     rest:
       basePath: /api
