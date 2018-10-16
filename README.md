@@ -39,6 +39,8 @@ By default, this requires you to login with neo4j/neo4j and change the password.
 - [ ] Keep configs in one property file and secrets in another property file!
 - [ ] Load some configs from a shared lib e.g. `spring.mvc.hrow-exception-if-no-handler-found=true`
 - [ ] Just expose `/actuator/info` & `/actuator/health`; but rest must not be exposed to whole world we need to expose `/actuator/prometheus`
+- [ ] All configs should be provided through configmaps and secrets
+- [ ] 
 
 ## How to get keycloak token?
 
