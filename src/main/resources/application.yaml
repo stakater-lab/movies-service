@@ -31,6 +31,12 @@ management:
       prometheus:
         enabled: true
 
+logging:
+  level:
+    org:
+      zalando:
+        logbook: TRACE
+
 lab:
   jwtPublicKey: |
                 -----BEGIN PUBLIC KEY-----

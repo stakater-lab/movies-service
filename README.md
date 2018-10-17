@@ -36,11 +36,10 @@ By default, this requires you to login with neo4j/neo4j and change the password.
 - [ ] In JavaScript its preferred to use underscore instead of camelCase; i.e. user_name and not userName; so, we should change the fields in the token
 - [X] Override `config.authenticationEntryPoint()` and provide custom auth entry point - DONE
 - [X] Return app information on `/actuator/info` - DONE
-- [ ] Keep configs in one property file and secrets in another property file!
+- [X] Keep configs in one property file and secrets in another property file! - THIS WON'T WORK! `spring-cloud-kubernetes`
 - [ ] Load some configs from a shared lib e.g. `spring.mvc.hrow-exception-if-no-handler-found=true`
 - [ ] Just expose `/actuator/info` & `/actuator/health`; but rest must not be exposed to whole world we need to expose `/actuator/prometheus`
 - [ ] All configs should be provided through configmaps and secrets
-- [ ] 
 
 ## How to get keycloak token?
 
@@ -55,6 +54,17 @@ value after `Bearer`
 
 ## Features
 
+### Colored output on console of SpringBoot application
+
+Colored output working within Intellij Idea for a Spring Boot application
+
+```
+spring:
+  output:
+    ansi:
+      enabled: always
+```
+
 ### Lombok
 
 To avoid repetitive code!
@@ -62,6 +72,8 @@ To avoid repetitive code!
 ### Same API Error format
 
 - Same API error response for business and oauth errors
+
+Fixed!
 
 ### Monitoring
 
@@ -131,7 +143,48 @@ http_server_requests_seconds_sum{exception="None",method="GET",status="200",uri=
 
 ### Logging
 
-- 
+Logback is the concrete implementation & SLF4J is the API!
+
+Logback natively implements the SLF4J API. This means that if you are using logback, you are actually using the SLF4J API. 
+
+#### Logbok
+
+We use logbok to log HTTP requests and responses; and it can be turned off and on by using this yaml/properties file:
+
+```
+logging:
+  level:
+    org:
+      zalando:
+        logbook: TRACE
+```
+
+More settings of logbok can be controlled with:
+
+https://github.com/zalando/logbook#example-configuration
+
+```
+logbook:
+    include:
+        - /api/**
+        - /actuator/**
+    exclude:
+        - /actuator/health
+        - /api/admin/**
+    filter.enabled: true
+    format.style: http
+    obfuscate:
+        headers:
+            - Authorization
+            - X-Secret
+        parameters:
+            - access_token
+            - password
+    write:
+        category: http.wire-log
+        level: INFO
+        chunk-size: 1000
+```
 
 ### Principal extraction from JWT IdToken; OAuth2 OpenID Connect
 
@@ -211,10 +264,8 @@ name `user_name`; need to add this field to KeyCloak claims - DONE
 - `SecurityController` has examples to extract principal in 4 different ways
 - There is no need to create a new class as `OAuth2Authentication` is good enough as it has all claims as well
 - Good to put breakpoints in `DefaultAccessTokenConverter` and debug the status and see how principal is extracted from the token
-- 
 
 ## Acknowledgements
 
 - https://github.com/neo4j-examples/movies-java-spring-data-neo4j
 - https://github.com/spring-projects/spring-data-examples/tree/master/neo4j
-- 
