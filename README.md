@@ -29,7 +29,7 @@ By default, this requires you to login with neo4j/neo4j and change the password.
 - [ ] Print the filter chain; all the filters which have been invoked before the request reaches the DispatcherServlet
 - [X] Change the keycloak signing key and verify - DONE
 - [ ] Time the API requests; log how much API request takes
-- [ ] Log the API requests / responses everything including headers ... AbstractRequestLoggingFilter
+- [ ] Log the API requests / responses everything including headers ... AbstractRequestLoggingFilter; used logbok
 - [X] Extract the principal from the id-token - DONE
 - [ ] In keycloak change validity period and verify that its rejected if token has expired
 - [X] Harmonize the API error responses from when e.g. path is not found; look in examples below - DONE
@@ -146,6 +146,13 @@ http_server_requests_seconds_sum{exception="None",method="GET",status="200",uri=
 Logback is the concrete implementation & SLF4J is the API!
 
 Logback natively implements the SLF4J API. This means that if you are using logback, you are actually using the SLF4J API. 
+
+To change log level just add it to the yaml/properties file i.e.
+
+```
+logging.level.root=info
+logging.level.com.stakater.rest.SecurityContorller=debug
+```
 
 #### Logbok
 
