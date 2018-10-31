@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RepositoryRestResource(collectionResourceRel = "movies", path = "movies")
+@SuppressWarnings("unused")
 public interface MovieRepository extends PagingAndSortingRepository<Movie, Long> {
     List<Movie> findByTitle(@Param("0") String title);
 
