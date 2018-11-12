@@ -40,12 +40,6 @@ logging:
 lab:
   jwtPublicKey: |
                 -----BEGIN PUBLIC KEY-----
-                MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz8Y+umAvSQKgOHq4FbIg
-                RSfJ436ItzpQ1SsdbO1QDjMxgl7od5wWOUvf4F0qk0Z93ZmZuQopKQysYRazkGd2
-                UvVq3edh79BNET5okG3IuX+4gfhC8W1BgpP6BQlF61w0Q86u/4ey7fXWcWRUX4+g
-                pC2D7bgUsAwbtGATFJzF9+0Tp3MWj6+tZa6jmiDah8Jpds++NVDu07jsLw/AvyO2
-                jaqjr5Fdk7MX8DWFVPebliT/UKijEru6uJ2u5xn9YDWYpxbRGq6pipcqQj/Icvvz
-                bh5+lyLaB1foRiOSm4q9MMmG6q+KIxPLhytg/GYokHqA7pUgFqWOlFmVvSMwzeWd
-                8QIDAQAB
+                MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgEjlZN1Q7wg5QOHzXGqyNf/q/VHQ0oJ2NdeODs18xuZJGJLDeP8eNPckklgVoTIhVs99Z5tLM1hP+9Gmw825uUWFvl4x50j2am25AH8iiPhkyL6hLzu8sbwwrU9GTirYjES9FSQUazNiV1XXHdyLdoFm7w33d5hlWiOS86cfFsF7AgMBAAE=
                 -----END PUBLIC KEY-----
   audience: webapp

@@ -42,7 +42,7 @@ public class SecurityController {
 
     @RequestMapping(value = "/api/username-from-oauth2-authentication", method = RequestMethod.GET)
     @ResponseBody
-    public String currentUserNameFromAuthenticationFacade(OAuth2Authentication oAuth2Authentication) {
+    public String currentUserNameFromOAuth2Authentication(OAuth2Authentication oAuth2Authentication) {
         // All OAuth2/OpenId Connect claims can be extracted from "details"; they are stored in a map
         return oAuth2Authentication.getPrincipal().toString();
     }

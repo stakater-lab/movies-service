@@ -1,8 +1,10 @@
-## Building
+# Movies Service
 
-`mvn spring-boot:run`
+A microservice with CRUD operations on movies
 
-## Neo4J
+## Backing Services
+
+### Neo4J
 
 To run neo4j:
 
@@ -19,6 +21,11 @@ which allows you to access neo4j through your browser at http://localhost:7474.
 This binds two ports (7474 and 7687) for HTTP and Bolt access to the Neo4j API. A volume is bound to /data to allow the database to be persisted outside the container.
 
 By default, this requires you to login with neo4j/neo4j and change the password. You can, for development purposes, disable authentication by passing `--env=NEO4J_AUTH=none` to docker run.
+
+## Building
+
+`mvn spring-boot:run`
+
 
 ## TODO's
 
@@ -43,14 +50,12 @@ By default, this requires you to login with neo4j/neo4j and change the password.
 
 ## How to get keycloak token?
 
-- `https://keycloak.cp.lab187.k8syard.com/auth/admin/lab/console/`
-- Login with users of `lab` realm; frodo or 
-- Open developer tools and then look for `Authorization` header in API calls to `realms` or `serverInfo` and extract select 
-value after `Bearer`
-- Or run the react-app
-- Try to access the secure path
+- Run the react-app
+- Try to access the secure path & login into keycloak lab realm with uname: frodo pwd: admin
 - Then in browser terminal print: `window.keycloak.idToken` or `keycloak.idToken`
 - Copy the idToken and then add it as `Authorization` header with `Bearer ` + idToken
+
+If you login through the console then the aud field is incorrect.
 
 ## Features
 
@@ -263,6 +268,66 @@ Solution: https://github.com/spring-projects/spring-security-oauth/issues/605
 The OAuth 2.0 specification defines how the authorization server error responses must be, but it does not force resource servers to adopt the same format.
 
 While adding OAuth 2.0 security to our services, we found it confusing for our clients to have to deal with two different error formats : one for "business errors" the other for "authorization errors".
+
+## Invalid token does not contain resource id (webapp)?
+
+This will happen if you use wrong token! aud claim is added automatically by KeyCloak
+
+```
+{
+    "type": null,
+    "title": "access_denied",
+    "status": "403",
+    "detail": "Invalid token does not contain resource id (webapp)",
+    "instance": null,
+    "field_errors": []
+}
+```
+
+If you generate the token through the sample react app then it looks like this:
+
+```
+{
+  "jti": "35421f49-2f52-49f9-b3e7-5610fa74320f",
+  "exp": 1544647043,
+  "nbf": 0,
+  "iat": 1542055535,
+  "iss": "https://keycloak.cp.lab187.k8s.com/auth/realms/lab",
+  "aud": "webapp",
+  "sub": "frodo@bagger.com",
+  "typ": "ID",
+  "azp": "webapp",
+  "nonce": "bc7d7a01-919c-4e5d-b420-c180689758ce",
+  "auth_time": 1542055043,
+  "session_state": "3878a500-5f8e-4f16-8b87-dfd4f83acf13",
+  "acr": "0",
+  "email_verified": true,
+  "user_name": "frodo@bagger.com",
+  "organizations": [
+    "/OrgA",
+    "/OrgB"
+  ],
+  "name": "Frodo Bagger",
+  "last_name": "Bagger",
+  "preferred_username": "frodo",
+  "given_name": "Frodo",
+  "family_name": "Bagger",
+  "first_name": "Frodo",
+  "email": "frodo@bagger.com",
+  "authorities": [
+    "ROLE_USER",
+    "ROLE_ADMIN"
+  ]
+}
+```
+
+Spring OAuth expects "aud" claim in JWT token. That claim's value should match to the resourceId value you specify your Spring app (if not specified it defaults to "oauth2-resource").
+
+When we login through the keycloak console the then aud is `security-admin-console`! Which must match the value set for `lab.audience`.
+
+If we login through the react app then aud will be webapp.
+
+Source: https://stackoverflow.com/a/47996482
 
 ## Extracting user/principal from IdToken
 
