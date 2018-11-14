@@ -22,9 +22,11 @@ This binds two ports (7474 and 7687) for HTTP and Bolt access to the Neo4j API. 
 
 By default, this requires you to login with neo4j/neo4j and change the password. You can, for development purposes, disable authentication by passing `--env=NEO4J_AUTH=none` to docker run.
 
-## Building
+## Running
 
-`mvn spring-boot:run`
+To run locally do:
+
+`mvn` or `mvn spring-boot:run`
 
 
 ## TODO's
